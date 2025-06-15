@@ -123,5 +123,7 @@ if (process.env.NODE_ENV === 'production') {
     require('./keep-alive');
 }
 
+console.log('🔄 Inicializando cliente WhatsApp...');
+
 // Iniciar
 client.initialize();
