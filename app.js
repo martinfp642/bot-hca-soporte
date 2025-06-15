@@ -17,9 +17,9 @@ const client = new Client({
 // QR Code
 client.on('qr', (qr) => {
     console.log('📱 Escanea este QR:');
+    console.log('QR String:', qr); // Línea adicional
     qrcode.generate(qr, {small: true});
 });
-
 // Bot listo
 client.on('ready', () => {
     console.log('✅ Bot HCA conectado!');
