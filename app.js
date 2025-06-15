@@ -82,5 +82,10 @@ app.listen(PORT, () => {
     console.log(`🌐 Servidor: ${PORT}`);
 });
 
+# Agregar al final de app.js, antes de client.initialize():
+if (process.env.NODE_ENV === 'production') {
+    require('./keep-alive');
+}
+
 // Iniciar
 client.initialize();
