@@ -5,25 +5,61 @@ const express = require('express');
 const PORT = process.env.PORT || 3000;
 
 console.log('🚀 Iniciando Bot HCA...');
+console.log('🔧 Configurando WhatsApp Web...');
+console.log('⏳ Esto puede tomar 1-3 minutos...');
 
 // Cliente WhatsApp
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox', 
+            '--disable-web-security',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process'
+        ],
+        headless: true
     }
 });
 
 // QR Code
 client.on('qr', (qr) => {
-    console.log('📱 Escanea este QR:');
-    console.log('QR String:', qr); // Línea adicional
+    console.log('📱 ¡QR GENERADO! Escanea este QR:');
+    console.log('==========================================');
+    console.log('QR STRING COMPLETO:');
+    console.log(qr);
+    console.log('==========================================');
     qrcode.generate(qr, {small: true});
+    console.log('==========================================');
+    console.log('✅ Copia el QR STRING para generar QR en web');
 });
+// Logs de progreso
+client.on('loading_screen', (percent, message) => {
+    console.log(`⏳ Cargando WhatsApp: ${percent}% - ${message}`);
+});
+
+client.on('authenticated', () => {
+    console.log('🔐 WhatsApp autenticado correctamente');
+});
+
+client.on('auth_failure', (msg) => {
+    console.error('❌ Error de autenticación:', msg);
+});
+
+client.on('disconnected', (reason) => {
+    console.log('🔌 Desconectado de WhatsApp:', reason);
+});
+
 // Bot listo
 client.on('ready', () => {
-    console.log('✅ Bot HCA conectado!');
+    console.log('✅ Bot HCA conectado y funcionando!');
+    console.log('🎉 Listo para recibir mensajes');
 });
+
 
 // Mensajes
 client.on('message', async (msg) => {
