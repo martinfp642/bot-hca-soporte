@@ -37,6 +37,7 @@ client.on('qr', (qr) => {
     console.log('==========================================');
     console.log('✅ Copia el QR STRING para generar QR en web');
 });
+
 // Logs de progreso
 client.on('loading_screen', (percent, message) => {
     console.log(`⏳ Cargando WhatsApp: ${percent}% - ${message}`);
@@ -59,7 +60,6 @@ client.on('ready', () => {
     console.log('✅ Bot HCA conectado y funcionando!');
     console.log('🎉 Listo para recibir mensajes');
 });
-
 
 // Mensajes
 client.on('message', async (msg) => {
@@ -118,12 +118,6 @@ app.listen(PORT, () => {
     console.log(`🌐 Servidor: ${PORT}`);
 });
 
-# Agregar al final de app.js, antes de client.initialize():
-if (process.env.NODE_ENV === 'production') {
-    require('./keep-alive');
-}
-
-console.log('🔄 Inicializando cliente WhatsApp...');
-
 // Iniciar
+console.log('🔄 Inicializando cliente WhatsApp...');
 client.initialize();
